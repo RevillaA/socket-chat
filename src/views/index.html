@@ -4,13 +4,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/chat.css">
         <title>ESPEChat</title>
     </head>
     <body> 
         <header>
             <h1>ESPECHAT</h1>
         </header>
-        <p>Bienvenido a ESPEchat, la aplicacion de chat en tiempo real</p>
+        <main>
+            <div id="all-messages">
+            </div>
+            <div class="send-messages">
+                <input type="text" id="message" placeholder="Escribe un mensaje">
+                <button type="button" id="send-message" class="btn secondary">Enviar</button>
+            </div>
+        </main>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/js/script.js"></script>
     </body>

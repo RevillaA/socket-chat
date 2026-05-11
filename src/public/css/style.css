@@ -49,6 +49,23 @@ button:not(:disabled) {
   border-color: var(--btn-hover-border-color);
 }
 
+.secondary {
+  --btn-color: #000000;
+  --btn-bg: #ffd700; /* Amarillo institucional */
+  --btn-border-color: #ffd700;
+  --btn-hover-color: #ffffff;
+  --btn-hover-bg: #006633; /* Verde institucional al hover */
+  --btn-hover-border-color: #006633;
+  --btn-focus-shadow-rgb: 255, 215, 0; /* Amarillo institucional en sombra */
+  --btn-active-color: #ffffff;
+  --btn-active-bg: #004422; /* Verde más oscuro */
+  --btn-active-border-color: #004422;
+  --btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --btn-disabled-color: #ffffff;
+  --btn-disabled-bg: #cccccc;
+  --btn-disabled-border-color: #cccccc;
+}
+
 .btn:focus {
   color: var(--btn-hover-color);
   background-color: var(--btn-hover-bg);

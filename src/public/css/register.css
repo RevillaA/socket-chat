@@ -10,7 +10,7 @@ main form {
   padding: 20px;
   border: 2px solid #006633; /* Borde verde institucional */
   border-radius: 8px;
-  background-color: #f9f9f9; /* Suave contraste */
+  background-color: #f9f9f9; /* Contraste suave */
 }
 
 main form .input-group label {

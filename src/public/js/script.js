@@ -1,18 +1,51 @@
 const socket = io();
 const send = document.querySelector('#send-message');
 const allMessages = document.querySelector('#all-messages');
+const message = document.querySelector('#message');
+const typingStatus = document.querySelector('#typing-status');
+let typingTimer;
+let isTyping = false;
+
+const stopTyping = () => {
+    clearTimeout(typingTimer);
+
+    if (isTyping) {
+        socket.emit("stopTyping");
+        isTyping = false;
+    }
+};
 
 send.addEventListener('click', (event) => {
-    const message = document.querySelector('#message');
+    if (message.value.trim() === "") {
+        stopTyping();
+        return;
+    }
+
     socket.emit("message", message.value);
     message.value = "";
+    stopTyping();
 });
 
-document.querySelector('#message').addEventListener('keydown', (event) => {
+message.addEventListener('keydown', (event) => {
     if (event.key === "Enter") {
         event.preventDefault();
         send.click();
     }
+});
+
+message.addEventListener('input', () => {
+    if (message.value.trim() === "") {
+        stopTyping();
+        return;
+    }
+
+    if (!isTyping) {
+        socket.emit("typing");
+        isTyping = true;
+    }
+
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(stopTyping, 1200);
 });
 
 socket.on("message", ({ user, message}) => {
@@ -31,4 +64,16 @@ socket.on("message", ({ user, message}) => {
     </div>
     `);
     allMessages.append(msg); 
+});
+
+socket.on("typing", ({ user }) => {
+    typingStatus.dataset.user = user;
+    typingStatus.textContent = `${user} esta escribiendo...`;
+});
+
+socket.on("stopTyping", ({ user }) => {
+    if (typingStatus.dataset.user === user) {
+        typingStatus.textContent = "";
+        delete typingStatus.dataset.user;
+    }
 });

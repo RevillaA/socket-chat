@@ -3,6 +3,10 @@ const send = document.querySelector('#send-message');
 const allMessages = document.querySelector('#all-messages');
 const message = document.querySelector('#message');
 const typingStatus = document.querySelector('#typing-status');
+
+const cookies = document.cookie.split(";");
+const usernameCookie = cookies.find(cookie => cookie.trim().startsWith("username="));
+const currentUser = usernameCookie ? usernameCookie.trim().replace("username=", "") : "";
 let typingTimer;
 let isTyping = false;
 
@@ -48,16 +52,22 @@ message.addEventListener('input', () => {
     typingTimer = setTimeout(stopTyping, 1200);
 });
 
-socket.on("message", ({ user, message}) => {
+socket.on("message", ({ user, message, timestamp}) => {
+   const messageClass = user === currentUser ? "own-message" : "other-message";
+   const time = new Date(timestamp).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+   });
+
    const msg = document.createRange().createContextualFragment(`
-    <div class="message">
+    <div class="message ${messageClass}">
         <div class="image-container">
             <img src="/img/avatar.jpg" alt="Foto de Antonio" height="50" width="50">
         </div>
         <div class="message-body">
             <div class="user-info">
                 <span class="name">${user}</span>
-                <span class="time">12:00 AM</span>
+                <span class="time">${time}</span>
             </div>
             <p>${message}</p>
         </div>

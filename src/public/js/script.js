@@ -3,6 +3,7 @@ const send = document.querySelector('#send-message');
 const allMessages = document.querySelector('#all-messages');
 const message = document.querySelector('#message');
 const typingStatus = document.querySelector('#typing-status');
+const connectedUsers = document.querySelector('#connected-users');
 
 const cookies = document.cookie.split(";");
 const usernameCookie = cookies.find(cookie => cookie.trim().startsWith("username="));
@@ -74,6 +75,11 @@ socket.on("message", ({ user, message, timestamp}) => {
     </div>
     `);
     allMessages.append(msg); 
+    allMessages.scrollTop = allMessages.scrollHeight;
+});
+
+socket.on("users", users => {
+    connectedUsers.textContent = `Conectados: ${users.join(", ")}`;
 });
 
 socket.on("typing", ({ user }) => {
